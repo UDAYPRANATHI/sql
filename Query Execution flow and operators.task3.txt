@@ -1,0 +1,241 @@
+ show databases;
++--------------------+
+| Database           |
++--------------------+
+| college_db         |
+| company_db         |
+| information_schema |
+| library_db         |
+| mysql              |
+| performance_schema |
+| school_db          |
+| sys                |
++--------------------+
+8 rows in set (0.0495 sec)
+ MySQL  localhost:33060+ ssl  SQL > company_db;
+ERROR: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'company_db' at line 1
+ MySQL  localhost:33060+ ssl  SQL > use company_db;
+Default schema set to `company_db`.
+Fetching global names, object names from `company_db` for auto-completion... Press ^C to stop.
+ MySQL  localhost:33060+ ssl  company_db  SQL > select *from products;
+ERROR: 1146: Table 'company_db.products' doesn't exist
+ MySQL  localhost:33060+ ssl  company_db  SQL > create table products(products_id int,products_name varchar(20),price decimal(10,2),discount decimal(10,2),stock_quantity int);
+Query OK, 0 rows affected (0.1345 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select *from products;
+Empty set (0.0057 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > desc products;
++----------------+---------------+------+-----+---------+-------+
+| Field          | Type          | Null | Key | Default | Extra |
++----------------+---------------+------+-----+---------+-------+
+| products_id    | int           | YES  |     | NULL    |       |
+| products_name  | varchar(20)   | YES  |     | NULL    |       |
+| price          | decimal(10,2) | YES  |     | NULL    |       |
+| discount       | decimal(10,2) | YES  |     | NULL    |       |
+| stock_quantity | int           | YES  |     | NULL    |       |
++----------------+---------------+------+-----+---------+-------+
+5 rows in set (0.0026 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > create table employees(emp_id int,name varchar(20),monthly_salary decimal(10,2),bonus_percent(10,2));
+  SQL > insert into products(products_id,products_name,price decimal,discount ,stock_quantity)values(1,'car',100000,500),(2,'bike',2000000,300),
+                                             ->                                              ->;
+ERROR: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'decimal,discount ,stock_quantity)values(1,'car',100000,500),(2,'bike',2000000,30' at line 1
+ MySQL  localhost:33060+ ssl  company_db  SQL > insert into products(products_id,products_name,price ,discount ,stock_quantity)values(1,'car',100000, 10.00,500),(2,'bike',2000000,20.00,300),                                              ->;
+ERROR: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '->' at line 1
+ MySQL  localhost:33060+ ssl  company_db  SQL > insert into products(products_id,products_name,price ,discount ,stock_quantity)values(1,'car',100000, 10.00,500),(2,'bike',2000000,20.00,300);                                              ->
+Query OK, 2 rows affected (0.0582 sec)
+
+Records: 2  Duplicates: 0  Warnings: 0
+                                             -> select *from products;
+ERROR: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '->
+select *from products' at line 1
+ MySQL  localhost:33060+ ssl  company_db  SQL > select *from products;
++-------------+---------------+------------+----------+----------------+
+| products_id | products_name | price      | discount | stock_quantity |
++-------------+---------------+------------+----------+----------------+
+|           1 | car           |  100000.00 |    10.00 |            500 |
+|           2 | bike          | 2000000.00 |    20.00 |            300 |
++-------------+---------------+------------+----------+----------------+
+2 rows in set (0.0009 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > insert into products(products_id,products_name,price,discount,stock_quantity)values(3,'jeep',500000,30.00,90),(4,'scooter',200000,40.00,10);
+
+Query OK, 2 rows affected (0.0516 sec)
+
+Records: 2  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  company_db  SQL > select *from products;
++-------------+---------------+------------+----------+----------------+
+| products_id | products_name | price      | discount | stock_quantity |
++-------------+---------------+------------+----------+----------------+
+|           1 | car           |  100000.00 |    10.00 |            500 |
+|           2 | bike          | 2000000.00 |    20.00 |            300 |
+|           3 | jeep          |  500000.00 |    30.00 |             90 |
+|           4 | scooter       |  200000.00 |    40.00 |             10 |
++-------------+---------------+------------+----------+----------------+
+4 rows in set (0.0010 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select products_name ,price*stock_quantity as a total_cost from products;
+ERROR: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'total_cost from products' at line 1
+ MySQL  localhost:33060+ ssl  company_db  SQL > select products_name ,price*stock_quantity as total_cost from products;
++---------------+--------------+
+| products_name | total_cost   |
++---------------+--------------+
+| car           |  50000000.00 |
+| bike          | 600000000.00 |
+| jeep          |  45000000.00 |
+| scooter       |   2000000.00 |
++---------------+--------------+
+4 rows in set (0.0479 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select  product_id,products_name ,price*stock_quantity as total_cost from products;
+ERROR: 1054: Unknown column 'product_id' in 'field list'
+ MySQL  localhost:33060+ ssl  company_db  SQL > select  products_id,products_name ,price*stock_quantity as total_cost from products;
++-------------+---------------+--------------+
+| products_id | products_name | total_cost   |
++-------------+---------------+--------------+
+|           1 | car           |  50000000.00 |
+|           2 | bike          | 600000000.00 |
+|           3 | jeep          |  45000000.00 |
+|           4 | scooter       |   2000000.00 |
++-------------+---------------+--------------+
+4 rows in set (0.0009 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select products_id,products_name,price-5 as new_price from products;
++-------------+---------------+------------+
+| products_id | products_name | new_price  |
++-------------+---------------+------------+
+|           1 | car           |   99995.00 |
+|           2 | bike          | 1999995.00 |
+|           3 | jeep          |  499995.00 |
+|           4 | scooter       |  199995.00 |
++-------------+---------------+------------+
+4 rows in set (0.0010 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select products_id,products_name,price*1.10 as new_projected_price from products;
++-------------+---------------+---------------------+
+| products_id | products_name | new_projected_price |
++-------------+---------------+---------------------+
+|           1 | car           |         110000.0000 |
+|           2 | bike          |        2200000.0000 |
+|           3 | jeep          |         550000.0000 |
+|           4 | scooter       |         220000.0000 |
++-------------+---------------+---------------------+
+4 rows in set (0.0013 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > desc employees;
++----------------+---------------+------+-----+---------+-------+
+| Field          | Type          | Null | Key | Default | Extra |
++----------------+---------------+------+-----+---------+-------+
+| emp_id         | int           | YES  |     | NULL    |       |
+| name           | varchar(20)   | YES  |     | NULL    |       |
+| monthly_salary | decimal(10,2) | YES  |     | NULL    |       |
+| bonus_percent  | decimal(10,2) | YES  |     | NULL    |       |
++----------------+---------------+------+-----+---------+-------+
+4 rows in set (0.0032 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > insert into (emp_id,name,monthly_salary,bonus_percent) values(1,'krishna',500000,20.00),(2,'ramu',900000,30.00),(3,'gopal',8000,40.00);
+ERROR: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(emp_id,name,monthly_salary,bonus_percent) values(1,'krishna',500000,20.00),(2,'' at line 1
+ MySQL  localhost:33060+ ssl  company_db  SQL > insert into employees(emp_id,name,monthly_salary,bonus_percent) values(1,'krishna',500000,20.00),(2,'ramu',900000,30.00),(3,'gopal',8000,40.00);
+Query OK, 3 rows affected (0.0552 sec)
+
+Records: 3  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  company_db  SQL > select *from employees;
++--------+---------+----------------+---------------+
+| emp_id | name    | monthly_salary | bonus_percent |
++--------+---------+----------------+---------------+
+|      1 | krishna |      500000.00 |         20.00 |
+|      2 | ramu    |      900000.00 |         30.00 |
+|      3 | gopal   |        8000.00 |         40.00 |
++--------+---------+----------------+---------------+
+3 rows in set (0.0009 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select name,monthly_salary*12 as anual_salary from employees;
++---------+--------------+
+| name    | anual_salary |
++---------+--------------+
+| krishna |   6000000.00 |
+| ramu    |  10800000.00 |
+| gopal   |     96000.00 |
++---------+--------------+
+3 rows in set (0.0641 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select emp_id,name, monthly_salary*(bonus_percent/100) as bonus amount from employees;
+ERROR: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'amount from employees' at line 1
+ MySQL  localhost:33060+ ssl  company_db  SQL > select emp_id,name, monthly_salary*(bonus_percent/100) as bonus_amount from employees;
++--------+---------+-----------------+
+| emp_id | name    | bonus_amount    |
++--------+---------+-----------------+
+|      1 | krishna | 100000.00000000 |
+|      2 | ramu    | 270000.00000000 |
+|      3 | gopal   |   3200.00000000 |
++--------+---------+-----------------+
+3 rows in set (0.0534 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select products_id,products_id%2 as remainder from products;
++-------------+-----------+
+| products_id | remainder |
++-------------+-----------+
+|           1 |         1 |
+|           2 |         0 |
+|           3 |         1 |
+|           4 |         0 |
++-------------+-----------+
+4 rows in set (0.0602 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select *from products;
++-------------+---------------+------------+----------+----------------+
+| products_id | products_name | price      | discount | stock_quantity |
++-------------+---------------+------------+----------+----------------+
+|           1 | car           |  100000.00 |    10.00 |            500 |
+|           2 | bike          | 2000000.00 |    20.00 |            300 |
+|           3 | jeep          |  500000.00 |    30.00 |             90 |
+|           4 | scooter       |  200000.00 |    40.00 |             10 |
++-------------+---------------+------------+----------+----------------+
+4 rows in set (0.0477 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select products_id,products_name,stock_quantity/4 as loc from products;
++-------------+---------------+----------+
+| products_id | products_name | loc      |
++-------------+---------------+----------+
+|           1 | car           | 125.0000 |
+|           2 | bike          |  75.0000 |
+|           3 | jeep          |  22.5000 |
+|           4 | scooter       |   2.5000 |
++-------------+---------------+----------+
+4 rows in set (0.0010 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select products_id,products_name,price-2 as profit from products;
++-------------+---------------+------------+
+| products_id | products_name | profit     |
++-------------+---------------+------------+
+|           1 | car           |   99998.00 |
+|           2 | bike          | 1999998.00 |
+|           3 | jeep          |  499998.00 |
+|           4 | scooter       |  199998.00 |
++-------------+---------------+------------+
+4 rows in set (0.0010 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select products_id,products_name,monthly_salary+200 as travel_allowance from products;
+ERROR: 1054: Unknown column 'monthly_salary' in 'field list'
+ MySQL  localhost:33060+ ssl  company_db  SQL > select emp_id,name,monthly_salary+200 as travel_allowance from employees;
++--------+---------+------------------+
+| emp_id | name    | travel_allowance |
++--------+---------+------------------+
+|      1 | krishna |        500200.00 |
+|      2 | ramu    |        900200.00 |
+|      3 | gopal   |          8200.00 |
++--------+---------+------------------+
+3 rows in set (0.0013 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select products_id,products_name,(price*50)-100 as bulk_discount from products;
++-------------+---------------+---------------+
+| products_id | products_name | bulk_discount |
++-------------+---------------+---------------+
+|           1 | car           |    4999900.00 |
+|           2 | bike          |   99999900.00 |
+|           3 | jeep          |   24999900.00 |
+|           4 | scooter       |    9999900.00 |
++-------------+---------------+---------------+
+4 rows in set (0.0010 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select *from employees;
++--------+---------+----------------+---------------+
+| emp_id | name    | monthly_salary | bonus_percent |
++--------+---------+----------------+---------------+
+|      1 | krishna |      500000.00 |         20.00 |
+|      2 | ramu    |      900000.00 |         30.00 |
+|      3 | gopal   |        8000.00 |         40.00 |
++--------+---------+----------------+---------------+
+3 rows in set (0.0010 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select *from products;
++-------------+---------------+------------+----------+----------------+
+| products_id | products_name | price      | discount | stock_quantity |
++-------------+---------------+------------+----------+----------------+
+|           1 | car           |  100000.00 |    10.00 |            500 |
+|           2 | bike          | 2000000.00 |    20.00 |            300 |
+|           3 | jeep          |  500000.00 |    30.00 |             90 |
+|           4 | scooter       |  200000.00 |    40.00 |             10 |
++-------------+---------------+------------+----------+----------------+
+4 rows in set (0.0007 sec)

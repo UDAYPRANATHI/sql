@@ -1,0 +1,203 @@
+show databases;
++--------------------+
+| Database           |
++--------------------+
+| college_db         |
+| company_db         |
+| information_schema |
+| library_db         |
+| mysql              |
+| performance_schema |
+| school_db          |
+| sys                |
++--------------------+
+8 rows in set (0.0060 sec)
+ MySQL  localhost:33060+ ssl  SQL > use sys;
+Default schema set to `sys`.
+Fetching global names, object names from `sys` for auto-completion... Press ^C to stop.
+ MySQL  localhost:33060+ ssl  sys  SQL > CREATE TABLE Employees (
+                                      ->     emp_id INT PRIMARY KEY,
+                                      ->     emp_name VARCHAR(50),
+                                      ->     department VARCHAR(50),
+                                      ->     salary INT,
+                                      ->     age INT,
+                                      ->     joining_date DATE
+                                      -> );
+Query OK, 0 rows affected (0.1322 sec)
+ MySQL  localhost:33060+ ssl  sys  SQL > desc employees;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| emp_id       | int         | NO   | PRI | NULL    |       |
+| emp_name     | varchar(50) | YES  |     | NULL    |       |
+| department   | varchar(50) | YES  |     | NULL    |       |
+| salary       | int         | YES  |     | NULL    |       |
+| age          | int         | YES  |     | NULL    |       |
+| joining_date | date        | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+6 rows in set (0.0040 sec)
+ MySQL  localhost:33060+ ssl  sys  SQL > select *from employees;
+Empty set (0.0470 sec)
+ MySQL  localhost:33060+ ssl  sys  SQL > INSERT INTO Employees VALUES
+                                      -> (1, 'Amit', 'HR', 30000, 25, '2022-01-10'),
+                                      -> (2, 'Neha', 'IT', 50000, 28, '2021-03-15'),
+                                      -> (3, 'Raj', 'IT', 60000, 30, '2020-07-20'),
+                                      -> (4, 'Priya', 'Finance', 45000, 27, '2023-02-11'),
+                                      -> (5, 'Karan', 'HR', 35000, 26, '2022-09-05');
+Query OK, 5 rows affected (0.0548 sec)
+
+Records: 5  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  sys  SQL > select *from employees;
++--------+----------+------------+--------+-----+--------------+
+| emp_id | emp_name | department | salary | age | joining_date |
++--------+----------+------------+--------+-----+--------------+
+|      1 | Amit     | HR         |  30000 |  25 | 2022-01-10   |
+|      2 | Neha     | IT         |  50000 |  28 | 2021-03-15   |
+|      3 | Raj      | IT         |  60000 |  30 | 2020-07-20   |
+|      4 | Priya    | Finance    |  45000 |  27 | 2023-02-11   |
+|      5 | Karan    | HR         |  35000 |  26 | 2022-09-05   |
++--------+----------+------------+--------+-----+--------------+
+5 rows in set (0.0009 sec)
+ MySQL  localhost:33060+ ssl  sys  SQL > select count(*) from employees;
++----------+
+| count(*) |
++----------+
+|        5 |
++----------+
+1 row in set (0.0575 sec)
+ MySQL  localhost:33060+ ssl  sys  SQL > select count(age) from employees;
++------------+
+| count(age) |
++------------+
+|          5 |
++------------+
+1 row in set (0.0009 sec)
+ MySQL  localhost:33060+ ssl  sys  SQL > select count(salary) from employess;
+ERROR: 1146: Table 'sys.employess' doesn't exist
+ MySQL  localhost:33060+ ssl  sys  SQL > select count(salary) from employees;
++---------------+
+| count(salary) |
++---------------+
+|             5 |
++---------------+
+1 row in set (0.0010 sec)
+ MySQL  localhost:33060+ ssl  sys  SQL > select distint(department) from employees;
+ERROR: 1305: FUNCTION sys.distint does not exist
+ MySQL  localhost:33060+ ssl  sys  SQL > select distinct(department) from employees;
++------------+
+| department |
++------------+
+| HR         |
+| IT         |
+| Finance    |
++------------+
+3 rows in set (0.0010 sec)
+ MySQL  localhost:33060+ ssl  sys  SQL > select sum(salary) as total_salary from employees;
++--------------+
+| total_salary |
++--------------+
+|       220000 |
++--------------+
+1 row in set (0.0009 sec)
+ MySQL  localhost:33060+ ssl  sys  SQL > select average(salary) from employees;
+ERROR: 1305: FUNCTION sys.average does not exist
+ MySQL  localhost:33060+ ssl  sys  SQL > select avg(salary) from employees;
++-------------+
+| avg(salary) |
++-------------+
+|  44000.0000 |
++-------------+
+1 row in set (0.0009 sec)
+ MySQL  localhost:33060+ ssl  sys  SQL > ALTER TABLE Employees
+                                      -> ADD bonus INT;
+Query OK, 0 rows affected (0.0851 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  sys  SQL > UPDATE Employees
+                                      -> SET bonus = 5000;
+Query OK, 5 rows affected (0.0535 sec)
+
+Rows matched: 5  Changed: 5  Warnings: 0
+ MySQL  localhost:33060+ ssl  sys  SQL > select * from employees;
++--------+----------+------------+--------+-----+--------------+-------+
+| emp_id | emp_name | department | salary | age | joining_date | bonus |
++--------+----------+------------+--------+-----+--------------+-------+
+|      1 | Amit     | HR         |  30000 |  25 | 2022-01-10   |  5000 |
+|      2 | Neha     | IT         |  50000 |  28 | 2021-03-15   |  5000 |
+|      3 | Raj      | IT         |  60000 |  30 | 2020-07-20   |  5000 |
+|      4 | Priya    | Finance    |  45000 |  27 | 2023-02-11   |  5000 |
+|      5 | Karan    | HR         |  35000 |  26 | 2022-09-05   |  5000 |
++--------+----------+------------+--------+-----+--------------+-------+
+5 rows in set (0.0010 sec)
+ MySQL  localhost:33060+ ssl  sys  SQL > select distinct(bonus) as bonus_value from employees;
++-------------+
+| bonus_value |
++-------------+
+|        5000 |
++-------------+
+1 row in set (0.0010 sec)
+ MySQL  localhost:33060+ ssl  sys  SQL > select sum(distinct bonus) as bonus_value from employees;
++-------------+
+| bonus_value |
++-------------+
+|        5000 |
++-------------+
+1 row in set (0.0474 sec)
+ MySQL  localhost:33060+ ssl  sys  SQL > select sum(bonus) as bonus_value from employees;
++-------------+
+| bonus_value |
++-------------+
+|       25000 |
++-------------+
+1 row in set (0.0009 sec)
+ MySQL  localhost:33060+ ssl  sys  SQL > select max(salary) from employees;
++-------------+
+| max(salary) |
++-------------+
+|       60000 |
++-------------+
+1 row in set (0.0009 sec)
+ MySQL  localhost:33060+ ssl  sys  SQL > select min(salary) from employees;
++-------------+
+| min(salary) |
++-------------+
+|       30000 |
++-------------+
+1 row in set (0.0010 sec)
+ MySQL  localhost:33060+ ssl  sys  SQL > select (salary+bonus) as total_payout from employees;
++--------------+
+| total_payout |
++--------------+
+|        35000 |
+|        55000 |
+|        65000 |
+|        50000 |
+|        40000 |
++--------------+
+5 rows in set (0.0010 sec)
+ MySQL  localhost:33060+ ssl  sys  SQL > select  sum(salary+bonus) as total_payout from employees;
++--------------+
+| total_payout |
++--------------+
+|       245000 |
++--------------+
+1 row in set (0.0010 sec)
+ MySQL  localhost:33060+ ssl  sys  SQL > select avg(salary*0.9) as tax_reduce from employees;
++-------------+
+| tax_reduce  |
++-------------+
+| 39600.00000 |
++-------------+
+1 row in set (0.0464 sec)
+ MySQL  localhost:33060+ ssl  sys  SQL > select * from employees;
++--------+----------+------------+--------+-----+--------------+-------+
+| emp_id | emp_name | department | salary | age | joining_date | bonus |
++--------+----------+------------+--------+-----+--------------+-------+
+|      1 | Amit     | HR         |  30000 |  25 | 2022-01-10   |  5000 |
+|      2 | Neha     | IT         |  50000 |  28 | 2021-03-15   |  5000 |
+|      3 | Raj      | IT         |  60000 |  30 | 2020-07-20   |  5000 |
+|      4 | Priya    | Finance    |  45000 |  27 | 2023-02-11   |  5000 |
+|      5 | Karan    | HR         |  35000 |  26 | 2022-09-05   |  5000 |
++--------+----------+------------+--------+-----+--------------+-------+
+5 rows in set (0.0009 sec)
+ MySQL  localhost:33060+ ssl  sys  SQL >

@@ -1,0 +1,175 @@
+
+ MySQL  localhost:33060+ ssl  company_db  SQL > -- Create table
+Query OK, 0 rows affected (0.0006 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > CREATE TABLE employees (
+                                             ->     name VARCHAR(50),
+                                             ->     department VARCHAR(50),
+                                             ->     job_role VARCHAR(50),
+                                             ->     salary INT,
+                                             ->     age INT
+                                             -> );
+Query OK, 0 rows affected (0.0310 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL >
+ MySQL  localhost:33060+ ssl  company_db  SQL > -- Insert 5 records
+Query OK, 0 rows affected (0.0003 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > INSERT INTO employees VALUES
+                                             -> ('Amit', 'HR', 'Recruiter', 45000, 30),
+                                             -> ('Anita', 'Finance', 'Accountant', 50000, 28),
+                                             -> ('Rahul', 'IT', 'Developer', 60000, 32),
+                                             -> ('Arjun', 'IT', 'Tester', 35000, 26),
+                                             -> ('Sneha', 'HR', 'Manager', 70000, 40);
+Query OK, 5 rows affected (0.0117 sec)
+
+Records: 5  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  company_db  SQL > select *from employees;
++-------+------------+------------+--------+-----+
+| name  | department | job_role   | salary | age |
++-------+------------+------------+--------+-----+
+| Amit  | HR         | Recruiter  |  45000 |  30 |
+| Anita | Finance    | Accountant |  50000 |  28 |
+| Rahul | IT         | Developer  |  60000 |  32 |
+| Arjun | IT         | Tester     |  35000 |  26 |
+| Sneha | HR         | Manager    |  70000 |  40 |
++-------+------------+------------+--------+-----+
+5 rows in set (0.0015 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select * from employees where salary>40000;
++-------+------------+------------+--------+-----+
+| name  | department | job_role   | salary | age |
++-------+------------+------------+--------+-----+
+| Amit  | HR         | Recruiter  |  45000 |  30 |
+| Anita | Finance    | Accountant |  50000 |  28 |
+| Rahul | IT         | Developer  |  60000 |  32 |
+| Sneha | HR         | Manager    |  70000 |  40 |
++-------+------------+------------+--------+-----+
+4 rows in set (0.0015 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select *from employees where name='a';
+Empty set (0.0012 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select *from employees where name like a;
+ERROR: 1054: Unknown column 'a' in 'where clause'
+ MySQL  localhost:33060+ ssl  company_db  SQL > select *from employees where name like 'a%';
++-------+------------+------------+--------+-----+
+| name  | department | job_role   | salary | age |
++-------+------------+------------+--------+-----+
+| Amit  | HR         | Recruiter  |  45000 |  30 |
+| Anita | Finance    | Accountant |  50000 |  28 |
+| Arjun | IT         | Tester     |  35000 |  26 |
++-------+------------+------------+--------+-----+
+3 rows in set (0.0686 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select * from employees where department in ('hr','finance');
++-------+------------+------------+--------+-----+
+| name  | department | job_role   | salary | age |
++-------+------------+------------+--------+-----+
+| Amit  | HR         | Recruiter  |  45000 |  30 |
+| Anita | Finance    | Accountant |  50000 |  28 |
+| Sneha | HR         | Manager    |  70000 |  40 |
++-------+------------+------------+--------+-----+
+3 rows in set (0.0013 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select * from employees where manager is null;
+ERROR: 1054: Unknown column 'manager' in 'where clause'
+ MySQL  localhost:33060+ ssl  company_db  SQL > alter table employees add
+                                             -> manager varchar(30) ;
+Query OK, 0 rows affected (0.0903 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  company_db  SQL > select * from employees;
++-------+------------+------------+--------+-----+---------+
+| name  | department | job_role   | salary | age | manager |
++-------+------------+------------+--------+-----+---------+
+| Amit  | HR         | Recruiter  |  45000 |  30 | NULL    |
+| Anita | Finance    | Accountant |  50000 |  28 | NULL    |
+| Rahul | IT         | Developer  |  60000 |  32 | NULL    |
+| Arjun | IT         | Tester     |  35000 |  26 | NULL    |
+| Sneha | HR         | Manager    |  70000 |  40 | NULL    |
++-------+------------+------------+--------+-----+---------+
+5 rows in set (0.0466 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select * from employees where manager is null;
++-------+------------+------------+--------+-----+---------+
+| name  | department | job_role   | salary | age | manager |
++-------+------------+------------+--------+-----+---------+
+| Amit  | HR         | Recruiter  |  45000 |  30 | NULL    |
+| Anita | Finance    | Accountant |  50000 |  28 | NULL    |
+| Rahul | IT         | Developer  |  60000 |  32 | NULL    |
+| Arjun | IT         | Tester     |  35000 |  26 | NULL    |
+| Sneha | HR         | Manager    |  70000 |  40 | NULL    |
++-------+------------+------------+--------+-----+---------+
+5 rows in set (0.0450 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select department,count(*) from employees where salary>3000 group by department;
++------------+----------+
+| department | count(*) |
++------------+----------+
+| HR         |        2 |
+| Finance    |        1 |
+| IT         |        2 |
++------------+----------+
+3 rows in set (0.0015 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select job_role,avg(salary) from employees where department='it' group by job_role;
++-----------+-------------+
+| job_role  | avg(salary) |
++-----------+-------------+
+| Developer |  60000.0000 |
+| Tester    |  35000.0000 |
++-----------+-------------+
+2 rows in set (0.0469 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select department job_role ,sum(salary) from employees where age<35 group by department,job_role;
++----------+-------------+
+| job_role | sum(salary) |
++----------+-------------+
+| HR       |       45000 |
+| Finance  |       50000 |
+| IT       |       60000 |
+| IT       |       35000 |
++----------+-------------+
+4 rows in set, 1 warning (0.0028 sec)
+Warning (code 1052): Column 'job_role' in group statement is ambiguous
+ MySQL  localhost:33060+ ssl  company_db  SQL > select department ,sum(salary) from employees group by department;
++------------+-------------+
+| department | sum(salary) |
++------------+-------------+
+| HR         |      115000 |
+| Finance    |       50000 |
+| IT         |       95000 |
++------------+-------------+
+3 rows in set (0.0013 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select department,count(*) from employees group by department;
++------------+----------+
+| department | count(*) |
++------------+----------+
+| HR         |        2 |
+| Finance    |        1 |
+| IT         |        2 |
++------------+----------+
+3 rows in set (0.0450 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select department,avg(salary) from employees group by department;
++------------+-------------+
+| department | avg(salary) |
++------------+-------------+
+| HR         |  57500.0000 |
+| Finance    |  50000.0000 |
+| IT         |  47500.0000 |
++------------+-------------+
+3 rows in set (0.0016 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select department,job-role,count(*)from employees group by department,job_role;
+ERROR: 1054: Unknown column 'job' in 'field list'
+ MySQL  localhost:33060+ ssl  company_db  SQL > select department,job_role,count(*)from employees group by department,job_role;
++------------+------------+----------+
+| department | job_role   | count(*) |
++------------+------------+----------+
+| HR         | Recruiter  |        1 |
+| Finance    | Accountant |        1 |
+| IT         | Developer  |        1 |
+| IT         | Tester     |        1 |
+| HR         | Manager    |        1 |
++------------+------------+----------+
+5 rows in set (0.0012 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select * from employees;
++-------+------------+------------+--------+-----+---------+
+| name  | department | job_role   | salary | age | manager |
++-------+------------+------------+--------+-----+---------+
+| Amit  | HR         | Recruiter  |  45000 |  30 | NULL    |
+| Anita | Finance    | Accountant |  50000 |  28 | NULL    |
+| Rahul | IT         | Developer  |  60000 |  32 | NULL    |
+| Arjun | IT         | Tester     |  35000 |  26 | NULL    |
+| Sneha | HR         | Manager    |  70000 |  40 | NULL    |
++-------+------------+------------+--------+-----+---------+
+5 rows in set (0.0014 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL >

@@ -1,0 +1,346 @@
+
+ MySQL  localhost:33060+ ssl  mysql  SQL > CREATE TABLE orders (
+                                        ->     order_id INT,
+                                        ->     customer_id INT,
+                                        ->     amount DECIMAL(10,2),
+                                        ->     order_date DATE
+                                        -> );
+Query OK, 0 rows affected (0.0633 sec)
+ MySQL  localhost:33060+ ssl  mysql  SQL >
+ MySQL  localhost:33060+ ssl  mysql  SQL > INSERT INTO orders VALUES
+                                        -> (1, 101, 500, '2024-01-01'),
+                                        -> (2, 101, 700, '2024-01-02'),
+                                        -> (3, 101, 300, '2024-01-03'),
+                                        -> (4, 101, 900, '2024-01-04'),
+                                        -> (5, 102, 400, '2024-01-02'),
+                                        -> (6, 102, 600, '2024-01-03'),
+                                        -> (7, 103, 200, '2024-01-01'),
+                                        -> (8, 103, 300, '2024-01-02'),
+                                        -> (9, 103, 400, '2024-01-03'),
+                                        -> (10, 104, 1000, '2024-01-05');
+Query OK, 10 rows affected (0.0827 sec)
+
+Records: 10  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  mysql  SQL > select * from orders;
++----------+-------------+---------+------------+
+| order_id | customer_id | amount  | order_date |
++----------+-------------+---------+------------+
+|        1 |         101 |  500.00 | 2024-01-01 |
+|        2 |         101 |  700.00 | 2024-01-02 |
+|        3 |         101 |  300.00 | 2024-01-03 |
+|        4 |         101 |  900.00 | 2024-01-04 |
+|        5 |         102 |  400.00 | 2024-01-02 |
+|        6 |         102 |  600.00 | 2024-01-03 |
+|        7 |         103 |  200.00 | 2024-01-01 |
+|        8 |         103 |  300.00 | 2024-01-02 |
+|        9 |         103 |  400.00 | 2024-01-03 |
+|       10 |         104 | 1000.00 | 2024-01-05 |
++----------+-------------+---------+------------+
+10 rows in set (0.0012 sec)
+ MySQL  localhost:33060+ ssl  mysql  SQL > select customer_id from orders group by customer_id having count(*)>3;
++-------------+
+| customer_id |
++-------------+
+|         101 |
++-------------+
+1 row in set (0.0009 sec)
+ MySQL  localhost:33060+ ssl  mysql  SQL > CREATE TABLE products (
+                                        ->     product_name VARCHAR(100),
+                                        ->     category VARCHAR(50),
+                                        ->     price DECIMAL(10,2)
+                                        -> );
+ERROR: 1050: Table 'products' already exists
+ MySQL  localhost:33060+ ssl  mysql  SQL >
+ MySQL  localhost:33060+ ssl  mysql  SQL > INSERT INTO products VALUES
+                                        -> ('Laptop', 'Electronics', 40000),
+                                        -> ('Mobile', 'Electronics', 20000),
+                                        -> ('TV', 'Electronics', 30000),
+                                        -> ('Sofa', 'Furniture', 25000),
+                                        -> ('Table', 'Furniture', 10000),
+                                        -> ('Chair', 'Furniture', 8000),
+                                        -> ('Watch', 'Accessories', 5000),
+                                        -> ('Bag', 'Accessories', 3000);
+ERROR: 1366: Incorrect integer value: 'Laptop' for column 'products_id' at row 1
+ MySQL  localhost:33060+ ssl  mysql  SQL > drop table products;
+Query OK, 0 rows affected (0.0749 sec)
+ MySQL  localhost:33060+ ssl  mysql  SQL > INSERT INTO products VALUES ('Laptop', 'Electronics', 40000), ('Mobile', 'Electronics', 20000), ('TV', 'Electronics', 30000), ('Sofa', 'Furniture', 25000), ('Table', 'Furniture', 10000), ('Chair', 'Furniture', 8000), ('Watch', 'Accessories', 5000), ('Bag', 'Accessories', 3000);
+ERROR: 1146: Table 'mysql.products' doesn't exist
+ MySQL  localhost:33060+ ssl  mysql  SQL > CREATE TABLE products (
+                                        ->     name VARCHAR(50),
+                                        ->     category VARCHAR(50),
+                                        ->     price INT
+                                        -> );
+Query OK, 0 rows affected (0.1112 sec)
+ MySQL  localhost:33060+ ssl  mysql  SQL > INSERT INTO products VALUES ('Laptop', 'Electronics', 40000), ('Mobile', 'Electronics', 20000), ('TV', 'Electronics', 30000), ('Sofa', 'Furniture', 25000), ('Table', 'Furniture', 10000), ('Chair', 'Furniture', 8000), ('Watch', 'Accessories', 5000), ('Bag', 'Accessories', 3000);
+Query OK, 8 rows affected (0.0106 sec)
+
+Records: 8  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  mysql  SQL > select * from products;
++--------+-------------+-------+
+| name   | category    | price |
++--------+-------------+-------+
+| Laptop | Electronics | 40000 |
+| Mobile | Electronics | 20000 |
+| TV     | Electronics | 30000 |
+| Sofa   | Furniture   | 25000 |
+| Table  | Furniture   | 10000 |
+| Chair  | Furniture   |  8000 |
+| Watch  | Accessories |  5000 |
+| Bag    | Accessories |  3000 |
++--------+-------------+-------+
+8 rows in set (0.0010 sec)
+ MySQL  localhost:33060+ ssl  mysql  SQL > select category from products group by category having sum(price)>5000;
++-------------+
+| category    |
++-------------+
+| Electronics |
+| Furniture   |
+| Accessories |
++-------------+
+3 rows in set (0.0011 sec)
+ MySQL  localhost:33060+ ssl  mysql  SQL > CREATE TABLE sales (
+                                        ->     salesperson_id INT,
+                                        ->     product_id INT,
+                                        ->     quantity INT,
+                                        ->     sale_date DATE
+                                        -> );
+Query OK, 0 rows affected (0.0930 sec)
+ MySQL  localhost:33060+ ssl  mysql  SQL >
+ MySQL  localhost:33060+ ssl  mysql  SQL > INSERT INTO sales VALUES
+                                        -> (1, 101, 40, '2024-01-01'),
+                                        -> (1, 102, 30, '2024-01-02'),
+                                        -> (1, 103, 50, '2024-01-03'),
+                                        -> (2, 101, 20, '2024-01-01'),
+                                        -> (2, 102, 10, '2024-01-02'),
+                                        -> (3, 103, 60, '2024-01-03'),
+                                        -> (3, 104, 50, '2024-01-04'),
+                                        -> (3, 105, 20, '2024-01-05');
+Query OK, 8 rows affected (0.0526 sec)
+
+Records: 8  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  mysql  SQL > select * from sales;
++----------------+------------+----------+------------+
+| salesperson_id | product_id | quantity | sale_date  |
++----------------+------------+----------+------------+
+|              1 |        101 |       40 | 2024-01-01 |
+|              1 |        102 |       30 | 2024-01-02 |
+|              1 |        103 |       50 | 2024-01-03 |
+|              2 |        101 |       20 | 2024-01-01 |
+|              2 |        102 |       10 | 2024-01-02 |
+|              3 |        103 |       60 | 2024-01-03 |
+|              3 |        104 |       50 | 2024-01-04 |
+|              3 |        105 |       20 | 2024-01-05 |
++----------------+------------+----------+------------+
+8 rows in set (0.0011 sec)
+ MySQL  localhost:33060+ ssl  mysql  SQL > select salesperson_id from sales group by salesperson_id having count(distinct product_id)>=3 and sum(quantity)>100;
++----------------+
+| salesperson_id |
++----------------+
+|              1 |
+|              3 |
++----------------+
+2 rows in set (0.0083 sec)
+ MySQL  localhost:33060+ ssl  mysql  SQL > drop table employees;
+ERROR: 1051: Unknown table 'mysql.employees'
+ MySQL  localhost:33060+ ssl  mysql  SQL > CREATE TABLE employees (
+                                        ->     name VARCHAR(100),
+                                        ->     department VARCHAR(50),
+                                        ->     salary DECIMAL(10,2)
+                                        -> );
+Query OK, 0 rows affected (0.0301 sec)
+ MySQL  localhost:33060+ ssl  mysql  SQL >
+ MySQL  localhost:33060+ ssl  mysql  SQL > INSERT INTO employees VALUES
+                                        -> ('Alice', 'Engineering', 90000),
+                                        -> ('Bob', 'Engineering', 85000),
+                                        -> ('Charlie', 'HR', 60000),
+                                        -> ('David', 'Engineering', 95000),
+                                        -> ('Eva', 'HR', 65000),
+                                        -> ('Frank', 'Engineering', 80000);
+Query OK, 6 rows affected (0.0103 sec)
+ CREATE TABLE employees (
+                                             ->     name VARCHAR(100),
+                                             ->     department VARCHAR(50),
+                                             ->     salary DECIMAL(10,2)
+                                             -> );
+Query OK, 0 rows affected (0.0273 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL >
+ MySQL  localhost:33060+ ssl  company_db  SQL > INSERT INTO employees VALUES
+                                             -> ('Alice', 'Engineering', 90000),
+                                             -> ('Bob', 'Engineering', 85000),
+                                             -> ('Charlie', 'HR', 60000),
+                                             -> ('David', 'Engineering', 95000),
+                                             -> ('Eva', 'HR', 65000),
+                                             -> ('Frank', 'Engineering', 80000);
+Query OK, 6 rows affected (0.0560 sec)
+
+Records: 6  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  company_db  SQL > select * employees order by salary desc;
+ERROR: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'employees order by salary desc' at line 1
+ MySQL  localhost:33060+ ssl  company_db  SQL > select * from employees order by salary desc;
++---------+-------------+----------+
+| name    | department  | salary   |
++---------+-------------+----------+
+| David   | Engineering | 95000.00 |
+| Alice   | Engineering | 90000.00 |
+| Bob     | Engineering | 85000.00 |
+| Frank   | Engineering | 80000.00 |
+| Eva     | HR          | 65000.00 |
+| Charlie | HR          | 60000.00 |
++---------+-------------+----------+
+6 rows in set (0.0014 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > CREATE TABLE products (
+                                             ->     product_name VARCHAR(100),
+                                             ->     category VARCHAR(50),
+                                             ->     price DECIMAL(10,2)
+                                             -> );
+ERROR: 1050: Table 'products' already exists
+ MySQL  localhost:33060+ ssl  company_db  SQL >
+ MySQL  localhost:33060+ ssl  company_db  SQL > INSERT INTO products VALUES
+                                             -> ('Laptop', 'Electronics', 40000),
+                                             -> ('Mobile', 'Electronics', 20000),
+                                             -> ('TV', 'Electronics', 30000),
+                                             -> ('Sofa', 'Furniture', 25000),
+                                             -> ('Table', 'Furniture', 10000),
+                                             -> ('Chair', 'Furniture', 8000),
+                                             -> ('Watch', 'Accessories', 5000),
+                                             -> ('Bag', 'Accessories', 3000);
+ERROR: 1136: Column count doesn't match value count at row 1
+ MySQL  localhost:33060+ ssl  company_db  SQL > drop table products;
+Query OK, 0 rows affected (0.0718 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > CREATE TABLE products (     product_name VARCHAR(100),     category VARCHAR(50),     price DECIMAL(10,2) );
+Query OK, 0 rows affected (0.0904 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > INSERT INTO products VALUES ('Laptop', 'Electronics', 40000), ('Mobile', 'Electronics', 20000), ('TV', 'Electronics', 30000), ('Sofa', 'Furniture', 25000), ('Table', 'Furniture', 10000), ('Chair', 'Furniture', 8000), ('Watch', 'Accessories', 5000), ('Bag', 'Accessories', 3000);
+Query OK, 8 rows affected (0.0091 sec)
+
+Records: 8  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  company_db  SQL > select product_name,price*0.85  as discounted_price from products order by discounted_price desc;
++--------------+------------------+
+| product_name | discounted_price |
++--------------+------------------+
+| Laptop       |       34000.0000 |
+| TV           |       25500.0000 |
+| Sofa         |       21250.0000 |
+| Mobile       |       17000.0000 |
+| Table        |        8500.0000 |
+| Chair        |        6800.0000 |
+| Watch        |        4250.0000 |
+| Bag          |        2550.0000 |
++--------------+------------------+
+8 rows in set (0.0015 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > CREATE TABLE customers (
+                                             ->     customer_id INT,
+                                             ->     name VARCHAR(100)
+                                             -> );
+Query OK, 0 rows affected (0.0845 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL >
+ MySQL  localhost:33060+ ssl  company_db  SQL > INSERT INTO customers VALUES
+                                             -> (101, 'John'),
+                                             -> (102, 'Jane'),
+                                             -> (103, 'Mark'),
+                                             -> (104, 'Lucy'),
+                                             -> (105, 'Tom'),
+                                             -> (106, 'Emma'),
+                                             -> (107, 'Ryan'),
+                                             -> (108, 'Sophia'),
+                                             -> (109, 'Chris'),
+                                             -> (110, 'David');
+Query OK, 10 rows affected (0.0599 sec)
+
+Records: 10  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  company_db  SQL > select * from customers limit 5;
++-------------+------+
+| customer_id | name |
++-------------+------+
+|         101 | John |
+|         102 | Jane |
+|         103 | Mark |
+|         104 | Lucy |
+|         105 | Tom  |
++-------------+------+
+5 rows in set (0.0010 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select * from products order by price desc limit 3;
++--------------+-------------+----------+
+| product_name | category    | price    |
++--------------+-------------+----------+
+| Laptop       | Electronics | 40000.00 |
+| TV           | Electronics | 30000.00 |
+| Sofa         | Furniture   | 25000.00 |
++--------------+-------------+----------+
+3 rows in set (0.0012 sec)select * from products order by price desc limit 3;
++--------------+-------------+----------+
+| product_name | category    | price    |
++--------------+-------------+----------+
+| Laptop       | Electronics | 40000.00 |
+| TV           | Electronics | 30000.00 |
+| Sofa         | Furniture   | 25000.00 |
++--------------+-------------+----------+
+3 rows in set (0.0012 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select name,department,salary from employees order by salary desc limit 3;
++-------+-------------+----------+
+| name  | department  | salary   |
++-------+-------------+----------+
+| David | Engineering | 95000.00 |
+| Alice | Engineering | 90000.00 |
+| Bob   | Engineering | 85000.00 |
++-------+-------------+----------+
+3 rows in set (0.0047 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select * from students limit 5 offset 5;
+ERROR: 1146: Table 'company_db.students' doesn't exist
+ MySQL  localhost:33060+ ssl  company_db  SQL > CREATE TABLE students (
+                                             ->     name VARCHAR(100),
+                                             ->     grade VARCHAR(10),
+                                             ->     score INT
+                                             -> );
+Query OK, 0 rows affected (0.0610 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL >
+ MySQL  localhost:33060+ ssl  company_db  SQL > INSERT INTO students VALUES
+                                             -> ('John', 'A', 85),
+                                             -> ('Jane', 'A', 90),
+                                             -> ('Mark', 'B', 70),
+                                             -> ('Lucy', 'B', 75),
+                                             -> ('Tom', 'A', NULL),
+                                             -> ('Emma', 'C', 60),
+                                             -> ('Ryan', 'C', NULL),
+                                             -> ('Sophia', 'B', 80);
+Query OK, 8 rows affected (0.0275 sec)
+
+Records: 8  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  company_db  SQL > select * from students limit 5 offset 5;
++--------+-------+-------+
+| name   | grade | score |
++--------+-------+-------+
+| Emma   | C     |    60 |
+| Ryan   | C     |  NULL |
+| Sophia | B     |    80 |
++--------+-------+-------+
+3 rows in set (0.0013 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select * from products limit 8 offset 24;
+Empty set (0.0013 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL > select order_id,customer_id,order_data,amount  from orders order by order_date desc limit 10 offset 20;
+ERROR: 1146: Table 'company_db.orders' doesn't exist
+ MySQL  localhost:33060+ ssl  company_db  SQL > select order_id,customer_id,order_data,amount  from order order by order_date desc limit 10 offset 20;
+ERROR: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order order by order_date desc limit 10 offset 20' at line 1
+ MySQL  localhost:33060+ ssl  company_db  SQL > CREATE TABLE orders (
+                                             ->     order_id INT,
+                                             ->     customer_id INT,
+                                             ->     amount DECIMAL(10,2),
+                                             ->     order_date DATE
+                                             -> );
+Query OK, 0 rows affected (0.0635 sec)
+ MySQL  localhost:33060+ ssl  company_db  SQL >
+ MySQL  localhost:33060+ ssl  company_db  SQL > INSERT INTO orders VALUES
+                                             -> (1, 101, 500, '2024-01-01'),
+                                             -> (2, 101, 700, '2024-01-02'),
+                                             -> (3, 101, 300, '2024-01-03'),
+                                             -> (4, 101, 900, '2024-01-04'),
+                                             -> (5, 102, 400, '2024-01-02'),
+                                             -> (6, 102, 600, '2024-01-03'),
+                                             -> (7, 103, 200, '2024-01-01'),
+                                             -> (8, 103, 300, '2024-01-02'),
+                                             -> (9, 103, 400, '2024-01-03'),
+                                             -> (10, 104, 1000, '2024-01-05');
+Query OK, 10 rows affected (0.0098 sec)
+
+'
+ MySQL  localhost:33060+ ssl  company_db  SQL > select order_id,customer_id,order_date,amount  from orders order by order_date desc limit 10 offset 20;
+Empty set (0.0015 sec)

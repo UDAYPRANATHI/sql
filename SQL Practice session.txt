@@ -1,0 +1,154 @@
+                                    SQL Practice session
+
+
+1. Define data and explain the different types of data.
+   
+ Data in raw facts and information used for processing and analysis. Types of data include structured, unstructured, semi-structured, qualitative, and quantitative data.
+
+2. What is a Database?
+    
+A database is an organised collection of related data stored electronically. It helps in easy storage ,retrieval, and management of information.
+
+3.What is DBMS? Explain its Purpose.
+DBMS is software used to create and manage databases, its purpose is to store data securely and reduce redundancy.
+
+4. Explain the Types of DBMS.
+The main types are Hierarchical, Network, Relational, and Object-Oriented DBMS.
+Each type stores and manages data in different structures.
+
+5. What is MySQL?
+ MySQL is an open-source relational database management system. It uses SQL language to store and manage data.
+
+6. What is SQL?
+SQL stands for structured Query Language, It is used to create, retrieve, update, and delete database data.
+
+7. Why is MySQL Mostly Used Compared to Other DBMS?
+MySQL is free, easy to learn, and highly reliable.It also provides good performance and security.
+
+8. What is a Query in SQL?
+A query is a SQL command used to interact with a database.It helps retrieve or modify data in tables.
+
+9. What is a Table in a Database?
+A table is a collection of data arranged in rows and columns.It stores related information in a structured format.
+
+10. What is a Record in a Table?
+A record is a single row in a database table.It contains complete information about one entry.
+
+11. What is a Column in a Table?
+A column is a field that stores a particular type of data.Each column represents an attribute of the table.
+
+
+12. Explain the Different Types of SQL Command Languages.
+SQL commands are divided into DDL, DML, DQL, DCL, and TCL.These commands help define, manipulate, retrieve, and control data.
+
+13. Create a Table with Given Structure.
+
+CREATE TABLE employee(
+id INT PRIMARY KEY UNIQUE AUTO_INCREMENT,
+sno INT AUTO_INCREMENT,
+salary DECIMAL(10,2),
+address TEXT,
+status BOOLEAN,
+department VARCHAR(50)
+);
+
+
+14. Insert at Least 8 Records into the Table.
+INSERT INTO employee(salary,address,status,department)
+VALUES
+(25000,'Hyderabad',1,'IT'),
+(18000,'Chennai',0,'HR'),
+(30000,'Delhi',1,'Finance'),
+(22000,'Mumbai',1,'IT'),
+(15000,'Pune',0,'Sales'),
+(27000,'Vizag',1,'HR'),
+(35000,'Kolkata',1,'IT'),
+(20000,'Bangalore',0,'Marketing');
+
+15. Update Salary by Adding Bonus.
+UPDATE employee
+SET salary = salary + 1000
+WHERE salary > 20000;
+
+
+16. Rename the Existing Table.
+RENAME TABLE employee TO employees;
+
+17. Add a New Column 'email'.
+
+ALTER TABLE employees
+ADD email VARCHAR(100);
+
+18. Update Email Values Using CASE Statement.
+UPDATE employees
+SET email =
+CASE
+WHEN id=1 THEN 'a@gmail.com'
+WHEN id=2 THEN 'b@gmail.com'
+WHEN id=3 THEN 'c@gmail.com'
+END;
+
+19. Modify Status Column Datatype from BOOLEAN to VARCHAR.
+ALTER TABLE employees
+MODIFY status VARCHAR(20);
+
+20. Differentiate Between ALTER and UPDATE Commands.
+
+ALTER changes the structure of a table.UPDATE changes the data stored inside the table.
+
+21. Differentiate Between DROP and TRUNCATE Commands.
+
+DROP removes both table structure and data.TRUNCATE removes only table data and keeps the structure.
+
+22. Delete Rows Where Salary is Less Than Department Average.
+DELETE FROM employees
+WHERE salary < (
+SELECT AVG(salary)
+FROM employees e2
+WHERE employees.department = e2.department
+);
+
+
+23. Differentiate Between GROUP BY and HAVING Clause.
+
+GROUP BY groups rows with similar values.
+HAVING filters grouped data after aggregation.
+
+
+24. Count Employees in Each Department.
+SELECT department, COUNT(*) 
+FROM employees
+GROUP BY department;
+
+25. Count Employees in IT Department.
+SELECT COUNT(*)
+FROM employees
+WHERE department='IT';
+
+
+26. ENUM Data Type Syntax.
+
+status ENUM('Active','Inactive')
+
+
+
+27. SET Data Type Syntax.
+
+hobbies SET('Reading','Coding','Gaming')
+
+28. Retrieve the Second Highest Salary.
+SELECT MAX(salary)
+FROM employees
+WHERE salary < (
+SELECT MAX(salary)
+FROM employees
+);
+
+29. FOREIGN KEY Syntax.
+
+FOREIGN KEY(customer_id)
+REFERENCES customers(customer_id)
+
+30. How to Find Data Types of All Columns in MySQL?
+
+DESC employees;
